@@ -25,15 +25,14 @@ namespace _20BF1A1232.Controllers
                 HttpResponseMessage response =  client.GetAsync("http://104.211.219.98/train/trains").Result;
                 if (response.IsSuccessStatusCode) {
                     string responseContent = response.Content.ReadAsStringAsync().Result;
-                    train = (IEnumerable<Train>)JsonConvert.DeserializeObject<Train>(responseContent);
+                    train = JsonConvert.DeserializeObject<IEnumerable<Train>>(responseContent);
                 }
             }
             return train;
         }
 
-        [HttpGet]
-        //[Route("/{}")]
-        public Train GetTrain(int trainId)
+        [HttpGet("{trainId}")]        
+        public Train Get(int trainId)
         {
              Train train = new Train();
             using (HttpClient client = new HttpClient())
